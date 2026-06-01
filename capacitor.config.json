@@ -1,0 +1,8 @@
+{
+  "appId": "com.raindust.fushenglu",
+  "appName": "浮生录",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}

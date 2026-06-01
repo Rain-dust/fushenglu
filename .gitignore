@@ -4,6 +4,12 @@ node_modules/
 # Runtime and build output
 dist/
 build/
+www/
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+*.apk
 *.log
 *.tmp
 
