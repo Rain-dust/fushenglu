@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fusheng QA Runner</title>
+  </head>
+  <body>
+    <pre id="result">RUNNING</pre>
+    <iframe id="frame" src="./index.html" style="width:430px;height:932px"></iframe>
+    <script>
+      const result = document.querySelector("#result");
+      const frame = document.querySelector("#frame");
+
+      function wait(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      function check(condition, message) {
+        if (!condition) throw new Error(message);
+      }
+
+      frame.addEventListener("load", async () => {
+        try {
+          const doc = frame.contentDocument;
+          await wait(900);
+          check(doc.querySelectorAll(".note-row").length >= 3, "note rows missing");
+          check(!doc.querySelector('[data-action="go-saved"]'), "saved nav should be merged into record");
+          check(!doc.querySelector('.bottom-nav [data-action="go-search"]'), "search should not be in bottom nav");
+          check(Boolean(doc.querySelector('header [data-action="go-search"]')), "toolbar search missing");
+          check([...doc.querySelectorAll(".tab")].map((item) => item.textContent.trim()).join("|") === "全部|摘录|随笔", "categories should be all/excerpt/essay");
+          doc.querySelector(".note-row").click();
+          await wait(350);
+          check(Boolean(doc.querySelector(".detail-vertical")), "vertical detail missing");
+          check(Boolean(doc.querySelector(".mood-wash")), "watermark missing");
+          doc.querySelector('[data-action="edit-entry"]').click();
+          await wait(350);
+          check(Boolean(doc.querySelector(".paper-stack .plain-textarea")), "editor missing");
+          doc.querySelector('[data-action="go-profile"]').click();
+          await wait(350);
+          check(Boolean(doc.querySelector(".stamp-preview")), "stamp maker missing");
+          check(doc.querySelectorAll('[data-action="theme-font"]').length >= 12, "font themes missing");
+          check(doc.querySelectorAll('[data-action="stamp-carving"]').length >= 8, "seal carving styles missing");
+          result.textContent = "QA PASS";
+        } catch (error) {
+          result.textContent = `QA FAIL: ${error.message}`;
+        }
+      });
+    </script>
+  </body>
+</html>

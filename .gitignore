@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Runtime and build output
+dist/
+build/
+*.log
+*.tmp
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Generated QA/browser artifacts
+qa/
+chrome-*/
+chrome-profile*/
+cat-debug-profile*/
+seal-migration-profile*/
+motion-debug*/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

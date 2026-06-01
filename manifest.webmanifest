@@ -1,0 +1,17 @@
+{
+  "name": "浮生录",
+  "short_name": "浮生录",
+  "description": "简、静、纯粹的文学摘录与人生感悟积累本。",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f7f4ef",
+  "theme_color": "#f7f4ef",
+  "icons": [
+    {
+      "src": "./assets/images/app/app_icon_foreground.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
