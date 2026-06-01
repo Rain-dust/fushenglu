@@ -19,6 +19,9 @@ on:
       - "styles.css"
       - "sw.js"
 
+permissions:
+  contents: write
+
 jobs:
   build-debug-apk:
     name: Build debug APK
@@ -64,3 +67,15 @@ jobs:
           name: fushenglu-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+
+      - name: Publish latest debug APK release
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk fushenglu-debug.apk
+          gh release delete apk-debug-latest --yes --cleanup-tag || true
+          gh release create apk-debug-latest fushenglu-debug.apk \
+            --target "$GITHUB_SHA" \
+            --title "Fushenglu Android APK" \
+            --notes "Debug-signed APK built from $GITHUB_SHA. Download fushenglu-debug.apk and install it on Android."
